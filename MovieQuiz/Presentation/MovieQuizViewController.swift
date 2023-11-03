@@ -88,8 +88,9 @@ final class MovieQuizViewController: UIViewController {
         
         let firstQuestionViewModel = convert(model: firstQuestionModel)
         self.show(quiz: firstQuestionViewModel)
-        // MARK: - Some structures
+        
     }
+    // MARK: - Some structures
     // структура для преобразования моков во вью модель
     struct QuizQuestion {
         let image: String
@@ -169,7 +170,9 @@ final class MovieQuizViewController: UIViewController {
             message: result.text,
             preferredStyle: .alert)
         
-        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
+        let action = UIAlertAction(title: result.buttonText, style: .default) {  [weak self] _ in // слабая ссылка на self
+            guard let self = self else { return } // разворачиваем слабую ссылку
+
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             
@@ -177,7 +180,10 @@ final class MovieQuizViewController: UIViewController {
             let viewModel = self.convert(model: firstQuestion)
             self.show(quiz: viewModel)
         }
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in // слабая ссылка на self
+            guard let self = self else { return } // разворачиваем слабую ссылку
+            self.showNextQuestionOrResults()
+        }
         alert.addAction(action)
         
         self.present(alert, animated: true, completion: nil)
