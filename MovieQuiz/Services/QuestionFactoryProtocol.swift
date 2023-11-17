@@ -5,7 +5,7 @@
 //  Created by Александр Туляганов on 06.11.2023.
 //
 
-import Foundation
+import UIKit 
 protocol QuestionFactoryProtocol {
-     func requestNextQuestion()
+     func requestNextQuestion() -> QuizQuestion?
  }
