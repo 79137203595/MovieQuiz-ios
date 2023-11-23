@@ -7,7 +7,7 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var counterLabel: UILabel!
     @IBOutlet weak private var noButton: UIButton!
     @IBOutlet weak private var yesButton: UIButton!
-    
+    @IBOutlet private var activityIndicator:UIActivityIndicatorView!
     // MARK: - Private Properties
     
     private var currentQuestionIndex = 0
@@ -50,7 +50,10 @@ final class MovieQuizViewController: UIViewController {
         let questionNumber: String
     }
     // MARK: - Private Methods
-    
+    private func showLoadingIndicator() {
+        activityIndicator.isHidden = false // говорим, что индикатор загрузки не скрыт
+        activityIndicator.startAnimating() // включаем анимацию
+    }
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(
             image: UIImage(named: model.image) ?? UIImage(),
@@ -127,6 +130,22 @@ final class MovieQuizViewController: UIViewController {
         )
         alertPresenter?.show(alertModel: alertModel)
         imageView.layer.borderColor = UIColor.clear.cgColor
+    }
+    private func hideLoadingIndicator(){
+        
+    }
+    private func showNetworkError(message:String) {
+        hideLoadingIndicator()
+        
+        let model = AlertModel(title: "Ошибка",
+                               message: message,
+                               buttonText: " Попробовать еще раз")
+        { [ weak self] in
+            self?.currentQuestionIndex = 0
+            self?.correctAnswers = 0
+            self?.questionFactory?.requestNextQuestion()
+        }
+        alertPresenter?.show(alertModel: model)
     }
 }
 
