@@ -13,15 +13,21 @@ final class MovieQuizViewController: UIViewController {
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
     private var currentQuestion: QuizQuestion?
-    private var questionFactory: QuestionFactory?
+    private var questionFactory: QuestionFactoryImpl?
     private var questionsCount = 10
     private var alertPresenter: AlertPresenter?
     private var statisticService: StatisticService?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageView.layer.cornerRadius = 20
+            questionFactory = QuestionFactoryImpl (moviesLoader: MoviesLoader(), delegate: self)
+            showLoadingIndicator()
         
-        questionFactory = QuestionFactoryImpl(delegate: self)
+        questionFactory?.loadData()
+        
+        //questionFactory = QuestionFactoryImpl(delegate: self)
+        
         alertPresenter = AlertPresenterImpl(viewController: self)
         statisticService = StatisticServiceImpl()
         
@@ -55,12 +61,17 @@ final class MovieQuizViewController: UIViewController {
         activityIndicator.startAnimating() // включаем анимацию
     }
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        let questionStep = QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+        return QuizStepViewModel(
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsCount)")
-        return questionStep
     }
+    //        let questionStep = QuizStepViewModel(
+    //            image: UIImage(named: model.image) ?? UIImage(),
+    //            question: model.text,
+    //            questionNumber: "\(currentQuestionIndex + 1)/\(questionsCount)")
+    //        return questionStep
+    //    }
     
     private func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
@@ -147,13 +158,24 @@ final class MovieQuizViewController: UIViewController {
         }
         alertPresenter?.show(alertModel: model)
     }
+    
+    
 }
+
 
 extension MovieQuizViewController: QuestionFactoryDelegate {
     func didReceiveQuestion(_ question: QuizQuestion) {
         self.currentQuestion = question
         let viewModel = self.convert(model: question)
         self.show(quiz: viewModel)
+    }
+    func didLoadDataFromServer() {
+        activityIndicator.isHidden = true // скрываем индикатор загрузки
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
     }
 }
 /*
