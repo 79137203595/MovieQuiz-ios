@@ -10,11 +10,12 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var activityIndicator:UIActivityIndicatorView!
     // MARK: - Private Properties
     
-    private var currentQuestionIndex = 0
+    private let presenter = MovieQuizPresenter()
     private var correctAnswers = 0
     private var currentQuestion: QuizQuestion?
     private var questionFactory: QuestionFactoryImpl?
-    private var questionsCount = 10
+   
+   
     private var alertPresenter: AlertPresenter?
     private var statisticService: StatisticService?
     
@@ -60,12 +61,12 @@ final class MovieQuizViewController: UIViewController {
         activityIndicator.isHidden = false // говорим, что индикатор загрузки не скрыт
         activityIndicator.startAnimating() // включаем анимацию
     }
-    private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        return QuizStepViewModel(
-            image: UIImage(data: model.image) ?? UIImage(),
-            question: model.text,
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionsCount)")
-    }
+//    private func convert(model: QuizQuestion) -> QuizStepViewModel {
+//        return QuizStepViewModel(
+//            image: UIImage(data: model.image) ?? UIImage(),
+//            question: model.text,
+//            questionNumber: "\(currentQuestionIndex + 1)/\(questionsCount)")
+//    }
     //        let questionStep = QuizStepViewModel(
     //            image: UIImage(named: model.image) ?? UIImage(),
     //            question: model.text,
@@ -99,10 +100,9 @@ final class MovieQuizViewController: UIViewController {
         }
     }
     private func showNextQuestionOrResults() {
-        if currentQuestionIndex == questionsCount - 1 {
-            showFinalResults()
+        if presenter.isLastQuestion() {
         } else {
-            currentQuestionIndex += 1
+            presenter.switchToNextQuestion()
             questionFactory?.requestNextQuestion()
             imageView.layer.borderWidth = 0
             imageView.layer.borderColor = UIColor.clear.cgColor
@@ -117,7 +117,7 @@ final class MovieQuizViewController: UIViewController {
             return (" ")
         }
         let totalPlaysCountLine = " Количество сыгранных квизов: \(String(describing: statisticService.gamesCount))"
-        let currentGameResultLine = "Ваш результат: \(correctAnswers)\\\(questionsCount)"
+        let currentGameResultLine = "Ваш результат: \(correctAnswers)\\\(presenter.questionsCount)"
         let bestGameInfoLine = "Рекорд: \(bestGame.correct)\\\(bestGame.total)"
         + " (\(bestGame.date.dateTimeString))"
         let averageAccuracyLine = "Средняя точность: \( String(format: "%.2f", statisticService.totalAccuracy))%"
@@ -127,14 +127,14 @@ final class MovieQuizViewController: UIViewController {
         return resultMessage
     }
     private func showFinalResults(){
-        statisticService?.store(correct: correctAnswers, tital: questionsCount)
+        statisticService?.store(correct: correctAnswers, tital: presenter.questionsCount)
         
         let alertModel = AlertModel(
             title: "Этот раунд окончен! ",
             message: makeResultMessage(),
             buttonText: "Сыграть еще раз",
             buttonAction: { [ weak self] in
-                self?.currentQuestionIndex = 0
+                self?.presenter.resetQuestionIndex()
                 self?.correctAnswers = 0
                 self?.questionFactory?.requestNextQuestion()
             }
@@ -152,7 +152,8 @@ final class MovieQuizViewController: UIViewController {
                                message: message,
                                buttonText: " Попробовать еще раз")
         { [ weak self] in
-            self?.currentQuestionIndex = 0
+            self?.presenter.resetQuestionIndex()
+//            self?.currentQuestionIndex = 0
             self?.correctAnswers = 0
             self?.questionFactory?.requestNextQuestion()
         }
@@ -166,7 +167,7 @@ final class MovieQuizViewController: UIViewController {
 extension MovieQuizViewController: QuestionFactoryDelegate {
     func didReceiveQuestion(_ question: QuizQuestion) {
         self.currentQuestion = question
-        let viewModel = self.convert(model: question)
+        let viewModel = presenter.convert(model: question)
         self.show(quiz: viewModel)
     }
     func didLoadDataFromServer() {
