@@ -94,18 +94,20 @@ final class MovieQuizViewController: UIViewController {
             guard let self = self else {
                 return
             }
-            self.showNextQuestionOrResults()
+            self.presenter.showNextQuestionOrResults()
+            self.presenter.correctAnswers = self.correctAnswers
+            self.presenter.questionFactory = self.questionFactory
         }
     }
-    private func showNextQuestionOrResults() {
-        if presenter.isLastQuestion() {
-        } else {
-            presenter.switchToNextQuestion()
-            questionFactory?.requestNextQuestion()
-            imageView.layer.borderWidth = 0
-            imageView.layer.borderColor = UIColor.clear.cgColor
-        }
-    }
+//    private func showNextQuestionOrResults() {
+//        if presenter.isLastQuestion() {
+//        } else {
+//            presenter.switchToNextQuestion()
+//            questionFactory?.requestNextQuestion()
+//            imageView.layer.borderWidth = 0
+//            imageView.layer.borderColor = UIColor.clear.cgColor
+//        }
+//    }
     
     private func makeResultMessage() -> String {
         
