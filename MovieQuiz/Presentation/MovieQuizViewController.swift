@@ -11,7 +11,7 @@ final class MovieQuizViewController: UIViewController {
     // MARK: - Private Properties
     
     private let presenter = MovieQuizPresenter()
-    private var correctAnswers = 0
+    
     private var currentQuestion: QuizQuestion?
     private var questionFactory: QuestionFactoryImpl?
    
@@ -84,7 +84,7 @@ final class MovieQuizViewController: UIViewController {
         yesButton.isEnabled = false
         noButton.isEnabled = false
         if isCorrect {
-            correctAnswers += 1
+            presenter.correctAnswers += 1
         }
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
@@ -95,7 +95,6 @@ final class MovieQuizViewController: UIViewController {
                 return
             }
             self.presenter.showNextQuestionOrResults()
-            self.presenter.correctAnswers = self.correctAnswers
             self.presenter.questionFactory = self.questionFactory
         }
     }
@@ -117,7 +116,7 @@ final class MovieQuizViewController: UIViewController {
             return (" ")
         }
         let totalPlaysCountLine = " Количество сыгранных квизов: \(String(describing: statisticService.gamesCount))"
-        let currentGameResultLine = "Ваш результат: \(correctAnswers)\\\(presenter.questionsCount)"
+        let currentGameResultLine = "Ваш результат: \(presenter.correctAnswers)\\\(presenter.questionsCount)"
         let bestGameInfoLine = "Рекорд: \(bestGame.correct)\\\(bestGame.total)"
         + " (\(bestGame.date.dateTimeString))"
         let averageAccuracyLine = "Средняя точность: \( String(format: "%.2f", statisticService.totalAccuracy))%"
@@ -127,7 +126,7 @@ final class MovieQuizViewController: UIViewController {
         return resultMessage
     }
     private func showFinalResults(){
-        statisticService?.store(correct: correctAnswers, tital: presenter.questionsCount)
+        statisticService?.store(correct: presenter.correctAnswers, tital: presenter.questionsCount)
         
         let alertModel = AlertModel(
             title: "Этот раунд окончен! ",
@@ -135,7 +134,7 @@ final class MovieQuizViewController: UIViewController {
             buttonText: "Сыграть еще раз",
             buttonAction: { [ weak self] in
                 self?.presenter.resetQuestionIndex()
-                self?.correctAnswers = 0
+                self?.presenter.correctAnswers = 0
                 self?.questionFactory?.requestNextQuestion()
             }
         )
@@ -154,7 +153,7 @@ final class MovieQuizViewController: UIViewController {
         { [ weak self] in
             self?.presenter.resetQuestionIndex()
 //            self?.currentQuestionIndex = 0
-            self?.correctAnswers = 0
+            self?.presenter.correctAnswers = 0
             self?.questionFactory?.requestNextQuestion()
         }
         alertPresenter?.show(alertModel: model)
