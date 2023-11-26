@@ -24,7 +24,7 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.cornerRadius = 20
             questionFactory = QuestionFactoryImpl (moviesLoader: MoviesLoader(), delegate: self)
             showLoadingIndicator()
-        
+        presenter.viewController = self
         questionFactory?.loadData()
         
         //questionFactory = QuestionFactoryImpl(delegate: self)
@@ -42,12 +42,10 @@ final class MovieQuizViewController: UIViewController {
     // MARK: - IB Actions
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        let givenAnswer = true
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion?.correctAnswer)
+        presenter.yesButtonClicked()
     }
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        let givenAnswer = false
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion?.correctAnswer)
+        presenter.noButtonClicked()
     }
     
     // MARK: - View Life Cycles
@@ -74,7 +72,7 @@ final class MovieQuizViewController: UIViewController {
     //        return questionStep
     //    }
     
-    private func show(quiz step: QuizStepViewModel) {
+     func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
@@ -82,7 +80,7 @@ final class MovieQuizViewController: UIViewController {
         noButton.isEnabled = true
     }
     
-    private func showAnswerResult(isCorrect: Bool) {
+    func showAnswerResult(isCorrect: Bool) {
         yesButton.isEnabled = false
         noButton.isEnabled = false
         if isCorrect {
@@ -143,7 +141,7 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderColor = UIColor.clear.cgColor
     }
     private func hideLoadingIndicator(){
-        
+        activityIndicator.isHidden = true
     }
     private func showNetworkError(message:String) {
         hideLoadingIndicator()
