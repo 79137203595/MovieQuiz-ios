@@ -160,13 +160,9 @@ final class MovieQuizViewController: UIViewController {
     
     
 }
-
-
 extension MovieQuizViewController: QuestionFactoryDelegate {
     func didReceiveQuestion(_ question: QuizQuestion) {
-        self.currentQuestion = question
-        let viewModel = presenter.convert(model: question)
-        self.show(quiz: viewModel)
+        presenter.didRecieveNextQuestion(question: question)
     }
     func didLoadDataFromServer() {
         activityIndicator.isHidden = true // скрываем индикатор загрузки
