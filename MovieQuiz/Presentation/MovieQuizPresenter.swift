@@ -10,12 +10,10 @@ import UIKit
 final class MovieQuizPresenter: QuestionFactoryDelegate {
     func didReceiveQuestion(_ question: QuizQuestion) {
     }
-    
-    
-    
+        
     var questionsCount = 10
     private var currentQuestionIndex = 0
-    var correctAnswers = 0
+    private var correctAnswers = 0
     var currentQuestion: QuizQuestion?
     weak var viewController: MovieQuizViewController?
     var questionFactory: QuestionFactoryImpl?
@@ -31,6 +29,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         questionFactory?.loadData()
         viewController.showLoadingIndicator()
     }
+    
     func didReceiveQuestion(question: QuizQuestion?) {
         guard let question = question else {
             return
@@ -41,6 +40,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             self?.viewController?.show(quiz: viewModel)
         }
     }
+    
     func didLoadDataFromServer() {
         viewController?.hideLoadingIndicator()
         questionFactory?.requestNextQuestion()
@@ -59,11 +59,13 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             correctAnswers += 1
         }
     }
+    
     func restartGame() {
         currentQuestionIndex = 0
         correctAnswers = 0
         questionFactory?.requestNextQuestion()
     }
+    
     func resetQuestionIndex() {
         currentQuestionIndex = 0
     }
@@ -107,6 +109,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             self.proceedToNextQuestionOrResults()
         }
     }
+    
     private func proceedToNextQuestionOrResults() {
         if self.isLastQuestion() {
             let text = correctAnswers == self.questionsCount ?
@@ -123,20 +126,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             questionFactory?.requestNextQuestion()
         }
     }
-    //    private func proceedToNextQuestionOrResults() {
-    //        statisticService?.store(correct: correctAnswers, tital: questionsCount)
-    //        
-    //        let alertModel = AlertModel(
-    //            title: "Этот раунд окончен! ",
-    //            message: makeResultMessage(),
-    //            buttonText: "Сыграть еще раз",
-    //            buttonAction: { [ weak self] in
-    //                self?.resetQuestionIndex()
-    //            }
-    //        )
-    //        alertPresenter?.show(alertModel: alertModel)
-    //        questionFactory?.requestNextQuestion()
-    //    }
+    
     func makeResultMessage() -> String {
         
         guard let statisticService  = statisticService,

@@ -3,10 +3,9 @@
 //  MovieQuiz
 //
 //  Created by Александр Туляганов on 20.11.2023.
-//
+
 
 import Foundation
-
 
 struct BestGame: Codable {
     let correct: Int
