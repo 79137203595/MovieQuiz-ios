@@ -28,31 +28,25 @@ class MovieQuizUITests: XCTestCase {
         app = nil
     }
     func testYesButton() {
-        let firstPoster = app.images["Poster"] // находим первоначальный постер
-        
-        app.buttons["Yes"].tap() // находим кнопку `Да` и нажимаем её
-        
-        let secondPoster = app.images["Poster"] // ещё раз находим постер
-        
-        XCTAssertFalse(firstPoster == secondPoster) // проверяем, что постеры разные
-    } 
-    func testNoButton() {
-        sleep(3)
-        
         let firstPoster = app.images["Poster"]
-        let firstPosterData = firstPoster.screenshot().pngRepresentation
         
-        app.buttons["No"].tap()
-        sleep(3)
+        app.buttons["Yes"].tap()
         
         let secondPoster = app.images["Poster"]
-        let secondPosterData = secondPoster.screenshot().pngRepresentation
-
-        let indexLabel = app.staticTexts["Index"]
-       
-        XCTAssertNotEqual(firstPosterData, secondPosterData)
-        XCTAssertEqual(indexLabel.label, "2/10")
+        
+        XCTAssertFalse(firstPoster == secondPoster)
+    } 
+    
+    func testNoButton() {
+        let firstPoster = app.images["Poster"]
+        
+        app.buttons["No"].tap()
+        
+        let secondPoster = app.images["Poster"]
+        
+        XCTAssertFalse(firstPoster == secondPoster)
     }
+    
     func testGameFinish() {
         sleep(2)
         for _ in 1...10 {

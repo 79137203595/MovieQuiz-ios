@@ -102,19 +102,6 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     
     
 }
-//extension MovieQuizViewController: QuestionFactoryDelegate {
-//    func didReceiveQuestion(_ question: QuizQuestion) {
-//        presenter.didRecieveNextQuestion(question: question)
-//    }
-//    func didLoadDataFromServer() {
-//        activityIndicator.isHidden = true // скрываем индикатор загрузки
-//        questionFactory?.requestNextQuestion()
-//    }
-//
-//    func didFailToLoadData(with error: Error) {
-//        showNetworkError(message: error.localizedDescription)
-//    }
-//}
 /*
  Mock-данные
  
