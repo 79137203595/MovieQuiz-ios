@@ -24,6 +24,9 @@
 		31DCA9BA2B13274500F1D0E0 /* MovieQuizTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DCA9B92B13274500F1D0E0 /* MovieQuizTests.swift */; };
 		31DCA9C12B1327C200F1D0E0 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DCA9C02B1327C200F1D0E0 /* Presenter.swift */; };
 		31DCA9C52B132AF900F1D0E0 /* MovieQuizViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DCA9C42B132AF900F1D0E0 /* MovieQuizViewControllerProtocol.swift */; };
+		31DCA9C92B15F88800F1D0E0 /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DCA9C72B15F88800F1D0E0 /* ArrayTests.swift */; };
+		31DCA9CB2B15FE3300F1D0E0 /* MoviesLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DCA9CA2B15FE3300F1D0E0 /* MoviesLoaderTests.swift */; };
+		31DCA9CD2B15FFDC00F1D0E0 /* StubNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DCA9CC2B15FFDC00F1D0E0 /* StubNetworkClient.swift */; };
 		AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1ABAB12831907B00B3E448 /* AppDelegate.swift */; };
 		AD1ABAB42831907B00B3E448 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1ABAB32831907B00B3E448 /* SceneDelegate.swift */; };
 		AD1ABAB62831907B00B3E448 /* MovieQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1ABAB52831907B00B3E448 /* MovieQuizViewController.swift */; };
@@ -64,6 +67,9 @@
 		31DCA9B92B13274500F1D0E0 /* MovieQuizTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizTests.swift; sourceTree = "<group>"; };
 		31DCA9C02B1327C200F1D0E0 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		31DCA9C42B132AF900F1D0E0 /* MovieQuizViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizViewControllerProtocol.swift; sourceTree = "<group>"; };
+		31DCA9C72B15F88800F1D0E0 /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
+		31DCA9CA2B15FE3300F1D0E0 /* MoviesLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesLoaderTests.swift; sourceTree = "<group>"; };
+		31DCA9CC2B15FFDC00F1D0E0 /* StubNetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNetworkClient.swift; sourceTree = "<group>"; };
 		AD1ABAAE2831907B00B3E448 /* MovieQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1ABAB12831907B00B3E448 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AD1ABAB32831907B00B3E448 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +121,7 @@
 				31DCA9A32B0B3FE300F1D0E0 /* StatisticService.swift */,
 				31DCA9AB2B0EE7AE00F1D0E0 /* NetworkClient.swift */,
 				31DCA9AF2B0EF72800F1D0E0 /* MoviesLoader.swift */,
+				31DCA9CC2B15FFDC00F1D0E0 /* StubNetworkClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -124,6 +131,8 @@
 			children = (
 				31DCA9B92B13274500F1D0E0 /* MovieQuizTests.swift */,
 				31DCA9C42B132AF900F1D0E0 /* MovieQuizViewControllerProtocol.swift */,
+				31DCA9C72B15F88800F1D0E0 /* ArrayTests.swift */,
+				31DCA9CA2B15FE3300F1D0E0 /* MoviesLoaderTests.swift */,
 			);
 			path = MovieQuizTests;
 			sourceTree = "<group>";
@@ -298,8 +307,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31DCA9C92B15F88800F1D0E0 /* ArrayTests.swift in Sources */,
 				31DCA9C52B132AF900F1D0E0 /* MovieQuizViewControllerProtocol.swift in Sources */,
 				31DCA9BA2B13274500F1D0E0 /* MovieQuizTests.swift in Sources */,
+				31DCA9CB2B15FE3300F1D0E0 /* MoviesLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +331,7 @@
 				31DCA9A82B0B764A00F1D0E0 /* AlertPresenter.swift in Sources */,
 				AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */,
 				31DCA99F2B0B200400F1D0E0 /* QuizResultsViewModel.swift in Sources */,
+				31DCA9CD2B15FFDC00F1D0E0 /* StubNetworkClient.swift in Sources */,
 				31DCA9AE2B0EF19900F1D0E0 /* MostPopularMovies.swift in Sources */,
 				31DCA9AC2B0EE7AE00F1D0E0 /* NetworkClient.swift in Sources */,
 				31DCA9A22B0B228500F1D0E0 /* QuestionFactory.swift in Sources */,
